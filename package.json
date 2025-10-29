@@ -1,12 +1,39 @@
 {
-  "name": "iot-sensor-testing-proxy",
+  "name": "iot-sensor-alert-system",
   "version": "1.0.0",
-  "description": "SNS Proxy Server for IoT Sensor Testing",
+  "description": "A serverless, event-driven IoT sensor monitoring system built on AWS",
   "main": "sns-proxy-server.js",
   "scripts": {
     "start": "node sns-proxy-server.js",
-    "dev": "nodemon sns-proxy-server.js"
+    "dev": "nodemon sns-proxy-server.js",
+    "test": "echo \"Run test scripts in test_scripts/ directory\"",
+    "deploy": "cd terraform && terraform apply",
+    "destroy": "cd terraform && terraform destroy"
   },
+  "keywords": [
+    "aws",
+    "iot",
+    "serverless",
+    "lambda",
+    "sns",
+    "dynamodb",
+    "ses",
+    "terraform",
+    "nodejs",
+    "real-time",
+    "monitoring",
+    "alerts"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/iot-sensor-alert-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/iot-sensor-alert-system/issues"
+  },
+  "homepage": "https://github.com/yourusername/iot-sensor-alert-system#readme",
   "dependencies": {
     "@aws-sdk/client-sns": "^3.0.0",
     "@aws-sdk/client-dynamodb": "^3.0.0",
@@ -16,5 +43,9 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }

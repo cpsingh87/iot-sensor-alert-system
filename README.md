@@ -1,8 +1,14 @@
 # 🌡️ IoT Sensor Alert System
 
+[![Validate Infrastructure](https://github.com/yourusername/iot-sensor-alert-system/actions/workflows/validate.yml/badge.svg)](https://github.com/yourusername/iot-sensor-alert-system/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Terraform](https://img.shields.io/badge/Terraform-1.5+-purple.svg)](https://www.terraform.io/)
+[![AWS](https://img.shields.io/badge/AWS-Serverless-orange.svg)](https://aws.amazon.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
+
 A serverless, event-driven IoT sensor monitoring system built on AWS that processes sensor data in real-time and sends email alerts when thresholds are exceeded.
 
-![Architecture Diagram](docs/architecture-diagram.png)
+> **Note**: Replace `yourusername` in the badge URLs above with your actual GitHub username after creating the repository.
 
 ## 🏗️ Architecture Overview
 
@@ -102,14 +108,34 @@ git clone https://github.com/yourusername/iot-sensor-alert-system.git
 cd iot-sensor-alert-system
 ```
 
-### 2. Configure Variables
+### 2. Automated Setup (Recommended)
 ```bash
-# Edit terraform/terraform.tfvars
+# Linux/Mac
+./setup.sh
+
+# Windows PowerShell
+./setup.ps1
+```
+
+### 3. Manual Setup (Alternative)
+```bash
+# Copy the example file and edit with your values
+cd terraform
+cp terraform.tfvars.example terraform.tfvars
+# Edit terraform.tfvars with your AWS region and email
+
+# Install dependencies
+npm install
+pip install -r requirements.txt
+```
+
+Example `terraform.tfvars`:
+```hcl
 aws_region = "us-east-2"
 alert_email = "your-email@example.com"
 ```
 
-### 3. Deploy Infrastructure
+### 4. Deploy Infrastructure
 ```bash
 # Using Terraform
 cd terraform
@@ -125,7 +151,7 @@ terraform apply
 ./deploy.sh
 ```
 
-### 4. Test the System
+### 5. Test the System
 ```bash
 # Run sensor simulator
 python sensor_simulator.py --topic-arn YOUR_SNS_TOPIC_ARN --count 5

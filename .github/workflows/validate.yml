@@ -1,0 +1,100 @@
+name: Validate Infrastructure
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  terraform-validate:
+    name: Terraform Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.5.0
+        
+    - name: Terraform Format Check
+      run: terraform fmt -check -recursive
+      working-directory: ./terraform
+      
+    - name: Terraform Init
+      run: terraform init -backend=false
+      working-directory: ./terraform
+      
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: ./terraform
+
+  nodejs-validate:
+    name: Node.js Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: terraform/package-lock.json
+        
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./terraform
+      
+    - name: Check for security vulnerabilities
+      run: npm audit --audit-level high
+      working-directory: ./terraform
+
+  python-validate:
+    name: Python Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install boto3 argparse
+        
+    - name: Validate Python syntax
+      run: python -m py_compile sensor_simulator.py
+
+  documentation-check:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check for required files
+      run: |
+        test -f README.md
+        test -f CONTRIBUTING.md
+        test -f LICENSE
+        test -f docs/DEPLOYMENT_GUIDE.md
+        test -f docs/TROUBLESHOOTING.md
+        test -f docs/ARCHITECTURE.md
+        
+    - name: Validate Markdown
+      uses: DavidAnson/markdownlint-action@v1
+      with:
+        files: '**/*.md'
+        ignore: 'node_modules'

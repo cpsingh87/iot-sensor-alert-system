@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 """
-Simple IoT Sensor Simulator
-Sends temperature and humidity data to AWS SNS
+IoT Sensor Simulator for AWS SNS
+Generates realistic sensor data and publishes to SNS topic
+Supports configurable anomaly generation for testing alert systems
+
+Usage:
+    python sensor_simulator.py --topic-arn arn:aws:sns:region:account:topic --count 10
+    
+Requirements:
+    pip install boto3
 """
 
 import json
@@ -70,8 +77,24 @@ def main():
     
     args = parser.parse_args()
     
-    # Initialize SNS client
-    sns_client = boto3.client('sns', region_name=args.region)
+    # Validate arguments
+    if args.count <= 0:
+        print("❌ Error: Count must be greater than 0")
+        return 1
+        
+    if not (0.0 <= args.anomaly_chance <= 1.0):
+        print("❌ Error: Anomaly chance must be between 0.0 and 1.0")
+        return 1
+    
+    # Initialize SNS client with error handling
+    try:
+        sns_client = boto3.client('sns', region_name=args.region)
+        # Test connection by listing topics (this will fail if credentials are invalid)
+        sns_client.list_topics()
+    except Exception as e:
+        print(f"❌ Error connecting to AWS SNS: {e}")
+        print("💡 Make sure AWS credentials are configured (aws configure)")
+        return 1
     
     sensors = ['sensor-001', 'sensor-002', 'sensor-003']
     
@@ -108,6 +131,7 @@ def main():
     print(f"🚨 Anomalies generated: {total_anomalies}")
     print(f"📧 Check your email for alerts!")
     print(f"📈 Check DynamoDB table for stored data!")
+    return 0
 
 if __name__ == '__main__':
-    main()
+    exit(main())

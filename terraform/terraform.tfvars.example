@@ -1,0 +1,16 @@
+aws_region = "us-east-2"
+alert_email = "your-email@example.com"
+
+# Optional: Customize thresholds
+# temperature_high_threshold = 30
+# temperature_low_threshold = 10
+# humidity_high_threshold = 80
+# humidity_low_threshold = 20
+
+# Optional: Lambda configuration
+# lambda_timeout = 30
+# lambda_memory_size = 128
+
+# Optional: Environment and project settings
+# environment = "dev"
+# project_name = "iot-sensor-alert"

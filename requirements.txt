@@ -1,1 +1,3 @@
+# Python dependencies for IoT Sensor Simulator
 boto3>=1.26.0
+argparse>=1.4.0
