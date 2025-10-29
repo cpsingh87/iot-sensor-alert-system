@@ -304,11 +304,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Terraform AWS Provider
 - Node.js AWS SDK v3
 
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/iot-sensor-alert-system/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/iot-sensor-alert-system/discussions)
-- **Email**: your-email@example.com
 
 ---
 
