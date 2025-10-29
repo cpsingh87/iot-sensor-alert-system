@@ -1,0 +1,149 @@
+{
+  "info": {
+    "name": "IoT Sensor Alert System Testing",
+    "description": "Collection for testing the IoT Sensor Alert System manually",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Test Normal Reading",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Set current timestamp",
+              "pm.globals.set('timestamp', new Date().toISOString());"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sensor_id\": \"sensor-postman-001\",\n  \"location\": \"Postman Test Room\",\n  \"temperature\": 22.5,\n  \"humidity\": 45.0,\n  \"timestamp\": \"{{timestamp}}\",\n  \"battery_level\": 85.5\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/publish-sensor-data",
+          "host": ["{{base_url}}"],
+          "path": ["publish-sensor-data"]
+        },
+        "description": "Test normal sensor reading - should store data but not trigger alerts"
+      }
+    },
+    {
+      "name": "Test High Temperature Alert",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.globals.set('timestamp', new Date().toISOString());"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sensor_id\": \"sensor-postman-002\",\n  \"location\": \"Postman Test Room - Hot\",\n  \"temperature\": 35.8,\n  \"humidity\": 45.0,\n  \"timestamp\": \"{{timestamp}}\",\n  \"battery_level\": 78.2\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/publish-sensor-data",
+          "host": ["{{base_url}}"],
+          "path": ["publish-sensor-data"]
+        },
+        "description": "Test high temperature alert - should trigger HIGH_TEMPERATURE email"
+      }
+    },
+    {
+      "name": "Test Low Humidity Alert",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.globals.set('timestamp', new Date().toISOString());"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sensor_id\": \"sensor-postman-003\",\n  \"location\": \"Postman Test Room - Dry\",\n  \"temperature\": 24.5,\n  \"humidity\": 12.3,\n  \"timestamp\": \"{{timestamp}}\",\n  \"battery_level\": 92.1\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/publish-sensor-data",
+          "host": ["{{base_url}}"],
+          "path": ["publish-sensor-data"]
+        },
+        "description": "Test low humidity alert - should trigger LOW_HUMIDITY email"
+      }
+    },
+    {
+      "name": "Test Multiple Alerts",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.globals.set('timestamp', new Date().toISOString());"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sensor_id\": \"sensor-postman-004\",\n  \"location\": \"Postman Test Room - Critical\",\n  \"temperature\": 38.7,\n  \"humidity\": 8.5,\n  \"timestamp\": \"{{timestamp}}\",\n  \"battery_level\": 65.3\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/publish-sensor-data",
+          "host": ["{{base_url}}"],
+          "path": ["publish-sensor-data"]
+        },
+        "description": "Test multiple alerts - should trigger both HIGH_TEMPERATURE and LOW_HUMIDITY emails"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "description": "Base URL for the SNS proxy server"
+    }
+  ]
+}
