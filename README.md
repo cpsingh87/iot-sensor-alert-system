@@ -1,6 +1,5 @@
 # 🌡️ IoT Sensor Alert System
 
-[![Validate Infrastructure](https://github.com/yourusername/iot-sensor-alert-system/actions/workflows/validate.yml/badge.svg)](https://github.com/yourusername/iot-sensor-alert-system/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Terraform](https://img.shields.io/badge/Terraform-1.5+-purple.svg)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-Serverless-orange.svg)](https://aws.amazon.com/)
